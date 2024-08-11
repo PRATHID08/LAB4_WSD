@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="cropmonitoring.xsl" type="text/xsl"?>
+<ns:CropMonitoring xmlns:ns="http://www.example.com/cropmonitoring">
+    <ns:Crop id="C001">
+        <ns:Name>Wheat</ns:Name>
+        <ns:PlantingDate>2024-03-01</ns:PlantingDate>
+        <ns:HarvestDate>2024-07-01</ns:HarvestDate>
+        <ns:GrowthStage>Booting</ns:GrowthStage>
+        <ns:WaterLevel>Medium</ns:WaterLevel>
+        <ns:PestInfo>
+            <ns:Pest>Pearl Millet Fly</ns:Pest>
+            <ns:Pest>Wheat Rust</ns:Pest>
+        </ns:PestInfo>
+        <ns:Notes>Normal growth with minor pest issues.</ns:Notes>
+        <ns:Fertilizer type="NPK" amount="50kg"/>
+    </ns:Crop>
+    <ns:Crop id="C002">
+        <ns:Name>Corn</ns:Name>
+        <ns:PlantingDate>2024-04-15</ns:PlantingDate>
+        <ns:HarvestDate>2024-08-15</ns:HarvestDate>
+        <ns:GrowthStage>Tasseling</ns:GrowthStage>
+        <ns:WaterLevel>High</ns:WaterLevel>
+        <ns:PestInfo>
+            <ns:Pest>European Corn Borer</ns:Pest>
+        </ns:PestInfo>
+        <ns:Notes>Requires regular irrigation.</ns:Notes>
+        <ns:Fertilizer type="Urea" amount="30kg"/>
+    </ns:Crop>
+    <ns:Crop id="C003">
+        <ns:Name>Rice</ns:Name>
+        <ns:PlantingDate>2024-05-22</ns:PlantingDate>
+        <ns:HarvestDate>2024-08-15</ns:HarvestDate>
+        <ns:GrowthStage>Tasseling</ns:GrowthStage>
+        <ns:WaterLevel>Medium</ns:WaterLevel>
+        <ns:PestInfo>
+            <ns:Pest>European Corn Borer</ns:Pest>
+        </ns:PestInfo>
+        <ns:Notes>Requires regular irrigation.</ns:Notes>
+        <ns:Fertilizer type="Urea" amount="30kg"/>
+    </ns:Crop>
+    <ns:Crop id="C004">
+        <ns:Name>Corn</ns:Name>
+        <ns:PlantingDate>2024-04-15</ns:PlantingDate>
+        <ns:HarvestDate>2024-08-15</ns:HarvestDate>
+        <ns:GrowthStage>Tasseling</ns:GrowthStage>
+        <ns:WaterLevel>High</ns:WaterLevel>
+        <ns:PestInfo>
+            <ns:Pest>European Corn Borer</ns:Pest>
+        </ns:PestInfo>
+        <ns:Notes>Requires regular irrigation.</ns:Notes>
+        <ns:Fertilizer type="Urea" amount="30kg"/>
+    </ns:Crop>
+</ns:CropMonitoring>

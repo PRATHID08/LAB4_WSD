@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT CropMonitoring (Crop+)>
+
+<!ELEMENT Crop (Name, PlantingDate, HarvestDate, GrowthStage, WaterLevel, PestInfo, Notes, Fertilizer)>
+<!ATTLIST Crop id CDATA #REQUIRED>
+
+<!ELEMENT Name (#PCDATA)>
+<!ELEMENT PlantingDate (#PCDATA)>
+<!ELEMENT HarvestDate (#PCDATA)>
+<!ELEMENT GrowthStage (#PCDATA)>
+<!ELEMENT WaterLevel (#PCDATA)>
+<!ELEMENT PestInfo (Pest+)>
+<!ELEMENT Pest (#PCDATA)>
+<!ELEMENT Notes (#PCDATA)>
+<!ELEMENT Fertilizer EMPTY>
+<!ATTLIST Fertilizer type CDATA #REQUIRED>
+<!ATTLIST Fertilizer amount CDATA #REQUIRED>
+
+<!ENTITY % WaterLevelEntities "Low | Medium | High">
+<!ENTITY % GrowthStageEntities "Germination | Vegetative | Booting | Tasseling | Maturity">
+
+<!ATTLIST WaterLevel
+    value (%WaterLevelEntities;) #REQUIRED>
+
+<!ATTLIST GrowthStage
+    value (%GrowthStageEntities;) #REQUIRED>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Open Street View</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+        <style>
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+            .footer {
+                background-color: #f8f9fa;
+                padding: 1rem;
+            }
+            .footer p {
+                margin: 0;
+            }
+            #map {
+                height: 500px;
+                width: 100%;
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">FEILD LOCATION</a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarNav"
+                    aria-controls="navbarNav"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#"
+                                >Home <span class="sr-only">(current)</span></a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Location</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div class="container">
+            <h1>Geoloc demo</h1>
+            <p>Timestamp: <span id="timestamp"></span></p>
+            <p>Latitude: <span id="latitude"></span></p>
+            <p>Longitude: <span id="longitude"></span></p>
+            <p>Accuracy: <span id="accuracy"></span></p>
+            <p>Altitude: <span id="altitude"></span></p>
+            <button id="clickMe" class="btn btn-primary">Click me</button>
+            <div id="errorArea" class="alert alert-danger d-none"></div>
+            <div id="map"></div>
+        </div>
+        
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+        <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+        <script>
+            let map;
+            let marker;
+            let routeControl;
+            
+            function initializeMap(lat, lng) {
+                map = L.map("map").setView([lat, lng], 13);
+                L.tileLayer(
+                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    {
+                        attribution:
+                            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                    }
+                ).addTo(map);
+                marker = L.marker([lat, lng])
+                    .addTo(map)
+                    .bindPopup("You are here!")
+                    .openPopup();
+                    if (routeControl) {
+                        routeControl.remove();
+                    }
+            }
+            
+            function updateMap(lat, lng) {
+                if (map && marker) {
+                    map.setView([lat, lng], 13);
+                    marker.setLatLng([lat, lng]).update();
+                    if (routeControl) {
+                        routeControl.remove();
+                    }
+                } else {
+                    initializeMap(lat, lng);
+                }
+            }
+            
+            function addRoute(startLat, startLng, endLat, endLng) {
+                if (routeControl) {
+                    routeControl.remove();
+                }
+                routeControl = L.Routing.control({
+                    waypoints: [
+                    L.latLng(startLat, startLng),
+                    L.latLng(endLat, endLng)
+                    ],
+                    routeWhileDragging: true
+                }).addTo(map);
+            }
+            
+            document.getElementById("clickMe").addEventListener("click", function () {
+                navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    document.getElementById("timestamp").innerText =
+                    new Date(pos.timestamp).toLocaleString();
+                    document.getElementById("latitude").innerText =
+                    pos.coords.latitude;
+                    document.getElementById("longitude").innerText =
+                    pos.coords.longitude;
+                    document.getElementById("accuracy").innerText =
+                    pos.coords.accuracy + " meters";
+                    document.getElementById("altitude").innerText =
+                    pos.coords.altitude !== null
+                    ? pos.coords.altitude + " meters"
+                    : "N/A";
+                    updateMap(pos.coords.latitude, pos.coords.longitude);
+                    // Example: Adding a route to a fixed location
+                    // addRoute(pos.coords.latitude, pos.coords.longitude, 40.712776, -74.005974); // Example coordinates
+                    addRoute(pos.coords.latitude, pos.coords.longitude, 12.9634, 77.6035);
+                },
+                (error) => {
+                    let msg = "";
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                        msg = "User Denied Permission";
+                        break;
+                        case error.POSITION_UNAVAILABLE:
+                        msg = "Position is not available";
+                        break;
+                        case error.TIMEOUT:
+                        msg = "Request timed out";
+                        break;
+                        default:
+                        msg = "An unknown error occurred";
+                        break;
+                    }
+                    let errorArea = document.getElementById("errorArea");
+                    errorArea.innerText = msg;
+                    errorArea.classList.remove("d-none");
+                }
+                );
+            });
+        </script>
+    </body>
+</html>
